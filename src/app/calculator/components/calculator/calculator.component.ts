@@ -22,13 +22,11 @@ export class CalculatorComponent {
 
   public calculatorsButtons = viewChildren(CalculatorButtonComponent);
   handleClick(key:string){
-    console.log({key});
+    this.calculatorService.constructNumber(key)
   }
 
   //@HostListener('document:keyup', ['$event'])
    handleKeyboardEvent(event: KeyboardEvent){
-
-
     const keyEquivalents : Record<string, string> ={
       Escape: 'C',
       Clear: 'C',

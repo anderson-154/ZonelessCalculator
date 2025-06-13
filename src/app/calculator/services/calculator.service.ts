@@ -56,17 +56,49 @@ export class CalculatorService {
       this.lastOperator.set(value)
       this.subResultText.set(this.resultText())
       this.resultText.set('0')
-    }
-
-    if(value == '.' && !this.resultText().includes('.')){
-      if(this.resultText()== '0' || this.resultText()== ''){
-        this.resultText.update(text => text + '0.')
-      }
       return;
     }
 
-    this.resultText.update(text=>text +'.')
+    if(this.resultText().length >= 10){
+      console.log('Max length reach')
+      return;
+    }
 
+    if (value == '.' && !this.resultText().includes('.')) {
+      if (this.resultText() == '0' || this.resultText() == '') {
+        this.resultText.set('0.')
+        return;
+      }
+      this.resultText.update(text => text + '.')
+      return;
+    }
+
+    //manejo de ceros
+    if(value == '0' && (this.resultText()=='0' || this.resultText()=='-0')){
+      return;
+    }
+
+    if(value == '+/-'){
+      if(this.resultText().includes('-')){
+        this.resultText.update(text =>text.slice(1))
+        return;
+      }
+      this.resultText.update(text => text + value)
+      return;
+    }
+
+
+    if(numbers.includes(value)){
+      if(this.resultText()== '0'){
+        this.resultText.set(value)
+        return;
+      }
+
+      if(this.resultText()== '-0'){
+          this.resultText.set('-' + value);
+          return;
+      }
+    }
+    this.resultText.update(text => text+value);
   }
-
 }
